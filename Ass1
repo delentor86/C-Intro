@@ -1,0 +1,22 @@
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int firstNum, secondNum, sum, product, intQuot, intRemain;
+	float fltPtQuot, average;
+	cout <<"Please enter the first integer: ";
+	cin >> firstNum;
+	cout <<"Please enter the second integer: ";
+	cin >> secondNum;
+	
+	sum = firstNum + secondNum;
+	product = firstNum * secondNum;
+	intQuot = firstNum / secondNum;
+	intRemain = firstNum % secondNum;
+	fltPtQuot = (float(firstNum / secondNum));
+	average = (firstNum + secondNum)/2;
+	
+  cout << fltPtQuot;
+}
