@@ -4,6 +4,7 @@
 //Float-Point Quotient, and average
 
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -11,31 +12,31 @@ using namespace std;
 int main()
 {
 	//declaring variables
-    	int firstNum, secondNum, sum, product, intQuot, intRemain, fltPtQuot;
-	double average, doubleFltPtQuot;
+    int firstNum, secondNum, sum, product, intQuot, intRemain;
+	double average, fltPtQuot;
 	
-    	//prompting input from user
+    //prompting input from user
 	cout <<"Please enter the first integer: ";
 	cin >> firstNum;
 	
 	cout <<"Please enter the second integer: ";
 	cin >> secondNum;
 	
-    	//Function calculating new variables for later output
+    //Function calculating new variables for later output
 	sum = firstNum + secondNum;
 	product = firstNum * secondNum;
 	intQuot = firstNum / secondNum;
 	intRemain = firstNum % secondNum;
-	fltPtQuot = double((firstNum / secondNum));
+	fltPtQuot = (float(firstNum)) / (float(secondNum));
 	average = ((float)firstNum + (float)secondNum)/2;
 	
-	//output information calculated in previous step
-	cout<< "The sum is: " <<sum;
-	cout<< "The product is: " <<product; 
-	cout<< "The Integer Quotient is: " <<intQuot;
-	cout<< "With a remainder of: " <<intRemain;
-	cout<< "The float-point quotient is: " <<fltPtQuot;
-	cout <<"The average is: " <<average;
+	cout<< "The sum is: " <<setw(21) <<sum << endl;
+	cout<< "The product is: " <<setw(17) <<product << endl; 
+	cout<< "The Integer Quotient is: " <<setw(7) <<intQuot << endl;
+	cout<< "With a remainder of: " <<setw(11) <<intRemain << endl;
+	cout<< "The float-point quotient is: " <<setw(7) <<setprecision(4) 
+	    <<fltPtQuot << endl;
+	cout<<"The average is: " <<setw(18) <<average << endl;
 	
 	return 0;
 }
