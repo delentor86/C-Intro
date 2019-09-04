@@ -11,17 +11,17 @@ using namespace std;
 int main()
 {
 	//declaring variables
-    int firstNum, secondNum, sum, product, intQuot, intRemain, fltPtQuot;
+    	int firstNum, secondNum, sum, product, intQuot, intRemain, fltPtQuot;
 	double average, doubleFltPtQuot;
 	
-    //prompting input from user
+    	//prompting input from user
 	cout <<"Please enter the first integer: ";
 	cin >> firstNum;
 	
 	cout <<"Please enter the second integer: ";
 	cin >> secondNum;
 	
-    //Function calculating new variables for later output
+    	//Function calculating new variables for later output
 	sum = firstNum + secondNum;
 	product = firstNum * secondNum;
 	intQuot = firstNum / secondNum;
