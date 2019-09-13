@@ -1,0 +1,80 @@
+//Adding preprocssor directives
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+//beginning main function
+int main ()
+
+{
+// declaring variables and assigning beginning values (if necessary)
+    char choice = ' ';
+    double balance;
+    double amount;
+    double totalServiceCharge;
+    double serviceCharge = .35;
+    double numService = 0;
+
+    cout<<fixed<<showpoint<<setprecision(2);
+    cout<<"Checkbook Balancing program"<<endl;
+    cout<<"Enter your beginning balance: ";
+    cin>>balance;
+    cout<<endl;
+
+    while (choice != 'e')
+
+    {
+
+        cout<<"Please enter a transaction code using lowercase letters."<<endl;
+        cout<<"C - Process a Check."<<endl;
+        cout<<"D - Process a Deposit."<<endl;
+        cout<<"E - Do end of month processing and exit program."<<endl;
+        cout<<"Transaction type: ";
+        cin>>choice;
+
+        if (choice == 'c' )
+
+        {
+            cout<<"Enter transaction amount: ";
+            cin>>amount;
+            cout<<"Processing check for "<<amount<<endl;
+            balance = balance - amount;
+            cout<<"Balance: "<<balance<<endl;
+            cout<<"Service charge: $"<<serviceCharge<<" for a check"<<endl;
+            numService++;
+            totalServiceCharge = numService * serviceCharge;
+            cout<<"Total service charges: $"<<totalServiceCharge<<endl;
+         }//if 'c'
+
+        else if (choice == 'd')
+
+        {
+            cout<<"Enter transaction amount: ";
+            cin>>amount;
+            cout<<"Processing deposit for "<<amount<<endl;
+            balance = balance + amount;
+            cout<<"Balance: "<<balance<<endl;
+            totalServiceCharge = numService * serviceCharge;
+            cout<<"Total service charges: $"<<totalServiceCharge<<endl;
+        }
+
+        else if (choice == 'e')
+
+        {
+            cout<<"Processing end of the month "<<endl;
+            totalServiceCharge = numService * serviceCharge;
+            cout <<"Final Balance: "<<balance - totalServiceCharge<<endl;
+        }
+
+        else
+
+        {
+            cout<<"Please enter a valid transaction type"<<endl;
+        }
+
+    }
+
+    return 0;
+    
+}
