@@ -1,3 +1,7 @@
+//program will ask user to give an initial budget as well as start
+//a loop for entering checks, deposits, and end of month processing
+//program will then calculate and display end of month balance and service charges
+
 //Adding preprocssor directives
 #include <iostream>
 #include <iomanip>
@@ -8,69 +12,71 @@ using namespace std;
 int main ()
 
 {
-// declaring variables and assigning beginning values (if necessary)
-    char choice = ' ';
-    double balance;
-    double amount;
-    double totalServiceCharge;
-    double serviceCharge = .35;
-    double numService = 0;
 
+    char choice = ' ';				
+    double balance;					//beginning balance 
+    double amount;					//variable for each transaction
+    double totalServiceCharge; 		//total for processing checks
+    double serviceCharge = .35;		//constant for check service charge
+    double numService = 0;			//tally counter for service charges
+
+	//display program header
     cout<<fixed<<showpoint<<setprecision(2);
-    cout<<"Checkbook Balancing program"<<endl;
+    cout<<"Checkbook Balancing program."<<endl;
     cout<<"Enter your beginning balance: ";
-    cin>>balance;
+    cin>>balance;		//user input for beginning balance
     cout<<endl;
 
+	//loop to keep program cycling so long as user does not enter 'e' to terminate
     while (choice != 'e')
 
     {
-
+		//displaying text menu with brief explanations
         cout<<"Please enter a transaction code using lowercase letters."<<endl;
         cout<<"C - Process a Check."<<endl;
         cout<<"D - Process a Deposit."<<endl;
         cout<<"E - Do end of month processing and exit program."<<endl;
         cout<<"Transaction type: ";
-        cin>>choice;
+        cin>>choice;		//storing user entry in variable 'choice'
 
-        if (choice == 'c' )
+        if (choice == 'c' )	//if user chooses 'c'
 
         {
             cout<<"Enter transaction amount: ";
-            cin>>amount;
+            cin>>amount; 	//user input for transaction amount
             cout<<"Processing check for "<<amount<<endl;
-            balance = balance - amount;
+            balance = balance - amount; //calculating new balance based off input
             cout<<"Balance: "<<balance<<endl;
             cout<<"Service charge: $"<<serviceCharge<<" for a check"<<endl;
-            numService++;
-            totalServiceCharge = numService * serviceCharge;
+            numService++;		//tracker for total number of service charges 
+            totalServiceCharge = numService * serviceCharge; //calculating total service charge with running tally
             cout<<"Total service charges: $"<<totalServiceCharge<<endl;
-         }//if 'c'
+         }
 
-        else if (choice == 'd')
+        else if (choice == 'd') //if user chooses 'd'
 
         {
             cout<<"Enter transaction amount: ";
-            cin>>amount;
+            cin>>amount; //user input for transaction amount
             cout<<"Processing deposit for "<<amount<<endl;
-            balance = balance + amount;
+            balance = balance + amount; //calculating new balance
             cout<<"Balance: "<<balance<<endl;
             totalServiceCharge = numService * serviceCharge;
             cout<<"Total service charges: $"<<totalServiceCharge<<endl;
         }
 
-        else if (choice == 'e')
+        else if (choice == 'e') //if user chooses 'e'
 
         {
             cout<<"Processing end of the month "<<endl;
-            totalServiceCharge = numService * serviceCharge;
-            cout <<"Final Balance: "<<balance - totalServiceCharge<<endl;
+            totalServiceCharge = numService * serviceCharge; 
+            cout <<"Final Balance: "<<balance - totalServiceCharge<<endl; //printing final balance
         }
 
-        else
+        else					//if user chooses an invalid option
 
         {
-            cout<<"Please enter a valid transaction type"<<endl;
+            cout<<"Please enter a valid transaction type"<<endl; //error message
         }
 
     }
