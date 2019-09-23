@@ -3,20 +3,20 @@
 #include <cstdlib>
 using namespace std;
 
-void displayMenu();
-void check(double& balance, double amount);
-void deposit(double& balance, double amount);
-char validate(char& selection);
+void displayMenu();			//function prototype for displaying options menu
+void check(double& balance, double amount); //prototype for check processing 
+void deposit(double& balance, double amount); //prototype for deposit processing
+char validate(char& selection); //prototype for selection validation
 
 
-int main ()
+int main () //beginning main function
 {
 
 
-    const float SVC_CHARGE = 0.25;  
-    const int NSF_CHARGE = 25;  
+    const float SVC_CHARGE = 0.35;  //check processing service charge
+    const int NSF_CHARGE = 35;  	//insufficient funds charge
 
-    double   balance = 0,      
+    double  balance = 0,      
             amount = 0,          
             finalBalance,  
             totalSvcCharge = 0,  
@@ -75,10 +75,10 @@ int main ()
 
                     // check for insufficient funds
 
-                    if ((balance < 800) && (acctBalCharge < 5))
+                    if ((balance < 100) && (acctBalCharge < 10))
                         acctBalCharge = 5;
 
-                    // check for balance below $800
+                    // check for balance below $1000
 
                     if (balance < 0)
                         totalNSFCharge += NSF_CHARGE;
