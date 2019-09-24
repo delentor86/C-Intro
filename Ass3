@@ -1,6 +1,11 @@
-#include <iostream>
-#include <iomanip>
+
+#include <iostream> //preprocessor directive for input/output
+#include <iomanip>	//preprocessor directive for i/o manipulation
 #include <cstdlib>
+#include <string>
+
+
+
 using namespace std;
 
 void displayMenu();			//function prototype for displaying options menu
@@ -16,15 +21,15 @@ int main () //beginning main function
     const float SVC_CHARGE = 0.35;  //check processing service charge
     const int NSF_CHARGE = 35;  	//insufficient funds charge
 
-    double  balance = 0,      
-            amount = 0,          
-            finalBalance,  
+    double  balance = 0,      	//initial balance
+            amount = 0,       	//amount for each transaction
+            finalBalance,  		
             totalSvcCharge = 0,  
             totalNSFCharge = 0,  
             acctBalCharge = 0,  
             totalChecks = 0;
 
-    char selection;          
+    char selection;          	
 
     system("cls");        
 
@@ -48,7 +53,11 @@ int main () //beginning main function
 
         cout << "Enter transaction type and amount: ";
         cin >> selection;
-        if (selection != 'E')
+		if (islower(selection)) //forcing selection to uppercase
+			{
+				selection = toupper(selection);
+			}
+        if (selection != 'E') //single line for both inputs
             cin >> amount;
 
 // validate the selection
@@ -59,6 +68,10 @@ int main () //beginning main function
             cout << "Selection must be a capital C, D, or E.\n";
             cout << "Please select again: ";
             cin >> selection;
+			if (islower(selection))
+			{
+				selection = toupper(selection);
+			}
         }
 
         if (selection != 'E')
@@ -75,8 +88,8 @@ int main () //beginning main function
 
                     // check for insufficient funds
 
-                    if ((balance < 100) && (acctBalCharge < 10))
-                        acctBalCharge = 5;
+                    if ((balance < 1000) && (acctBalCharge < 10))
+                        acctBalCharge = 10;
 
                     // check for balance below $1000
 
@@ -130,7 +143,7 @@ int main () //beginning main function
 }              
 
 
-void displayMenu()
+void displayMenu() //display menu for ease of use
 {
     cout << endl;
     cout << "Commands:" << endl;
@@ -140,7 +153,7 @@ void displayMenu()
 }
 
 
-char validate(char& selection)
+char validate(char& selection) 
 {
     if (selection < 'C' || selection > 'E')
     {
@@ -149,19 +162,23 @@ char validate(char& selection)
         cout << "Selection must be a capital C, D, or E.\n";
         cout << "Please select again: ";
         cin >> selection;
+		if (islower(selection))
+		{
+			selection = toupper(selection);
+		}
     }
     return selection;
 }
 
 
-void check(double& balance, double amount)
+void check(double& balance, double amount) //check processing
 {
     // deduct the value of the check from balance
     balance -= amount;
 
 }
 
-void deposit(double& balance, double amount)
+void deposit(double& balance, double amount) //deposit processing
 {
     // add the value of the deposit to balance
     balance += amount;
