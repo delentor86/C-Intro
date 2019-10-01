@@ -1,0 +1,76 @@
+// C++ program to create and test Robot class
+#include <iostream>
+using namespace std;
+
+class Robot
+{
+private:
+   double rpm, diameter;
+
+public:
+   Robot();
+   void setRPM(double newRPM);
+   void setDiameter(double newDiameter);
+   double getRPM();
+   double getDiameter();
+   double getSpeed();
+};
+
+// default constructor
+Robot::Robot() : rpm(74),diameter(1)
+{}
+
+//function to set the rpm
+void Robot::setRPM(double newRPM)
+{
+   // check if newPRM is valid, then set rpm to newRPM
+   if(newRPM == 74 || newRPM == 190 || newRPM == 265)
+       rpm = newRPM;
+}
+
+// function to set the diameter
+void Robot::setDiameter(double newDiameter)
+{
+   // check if newDiameter is valid, then set diameter to newDiameter
+   if(newDiameter >= 1 && newDiameter <= 6)
+       diameter = newDiameter;
+}
+
+// function to return rpm
+double Robot::getRPM()
+{
+   return rpm;
+}
+
+// function to return diameter
+double Robot::getDiameter()
+{
+   return diameter;
+}
+
+// function to calculate and return speed in feet per minute
+double Robot::getSpeed()
+{
+   double pi = 3.14159;
+   return((rpm *diameter*pi)/12);
+}
+
+int main() {
+
+   // test the class
+   Robot robot; // create an object of Robot class
+   // display the values after constructor
+   cout<<"Constructor:\nRPM :"<<robot.getRPM()<<" Diameter : "<<robot.getDiameter()<<" Speed : "<<robot.getSpeed()<<endl;
+   // set the fields to valid values
+   robot.setRPM(190);
+   robot.setDiameter(5);
+   // display the values after setting to valid values
+   cout<<"Setting RPM = 190 and diameter = 5:\nRPM : "<<robot.getRPM()<<" Diameter : "<<robot.getDiameter()<<" Speed : "<<robot.getSpeed()<<endl;
+   // set the fields to invalid values
+   robot.setRPM(130);
+   robot.setDiameter(7);
+   // display the values after setting to invalid values
+   cout<<"Setting RPM = 130 and diameter = 7\nRPM : "<<robot.getRPM()<<" Diameter : "<<robot.getDiameter()<<" Speed : "<<robot.getSpeed()<<endl;
+   return 0;
+}
+//end of program
