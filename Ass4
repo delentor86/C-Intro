@@ -1,14 +1,23 @@
-// C++ program to create and test Robot class
-#include <iostream>
+//Sean Hodge
+//Program Status: Complete
+
+//Program will start by creating a class called Robot. Access specifiers
+//will be identified and functions will be made with no input from user. The 
+//program will run and calculate movement speed of robot and display tested values
+
+
+#include <iostream> //preprocessor directive for input output
+
 using namespace std;
 
-class Robot
+class Robot //creating Robot class
 {
-private:
-   double rpm, diameter;
+private: //declaring private access specifiers
+   double rpm; 
+   double diameter;
 
-public:
-   Robot();
+public: //declaring public access specifiers
+   Robot(); 
    void setRPM(double newRPM);
    void setDiameter(double newDiameter);
    double getRPM();
@@ -59,18 +68,24 @@ int main() {
 
    // test the class
    Robot robot; // create an object of Robot class
+   
    // display the values after constructor
    cout<<"Constructor:\nRPM :"<<robot.getRPM()<<" Diameter : "<<robot.getDiameter()<<" Speed : "<<robot.getSpeed()<<endl;
+   
    // set the fields to valid values
    robot.setRPM(190);
    robot.setDiameter(5);
+   
    // display the values after setting to valid values
    cout<<"Setting RPM = 190 and diameter = 5:\nRPM : "<<robot.getRPM()<<" Diameter : "<<robot.getDiameter()<<" Speed : "<<robot.getSpeed()<<endl;
+   
    // set the fields to invalid values
    robot.setRPM(130);
    robot.setDiameter(7);
+   
    // display the values after setting to invalid values
    cout<<"Setting RPM = 130 and diameter = 7\nRPM : "<<robot.getRPM()<<" Diameter : "<<robot.getDiameter()<<" Speed : "<<robot.getSpeed()<<endl;
+   
    return 0;
 }
 //end of program
