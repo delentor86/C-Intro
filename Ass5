@@ -1,0 +1,125 @@
+//C++ code
+
+#include<iostream>
+#include<string>
+#include<iomanip>
+using namespace std;
+
+struct Employee
+{
+   //employee ID number(integer value)
+   int empId;
+   //employee name(your program should handle names of up to 20 characters - may contain spaces)
+   char name[20];
+   //pay rate per hour(floating - point value)
+   double rate;
+   //type of employee(0 for union, 1 for management)
+   int empType;
+};
+
+int main()
+{
+   //there are exactly 4 employees
+   int const MAX_EMPLOYEE = 4;
+   //Tax - All employees pay a flat 15% income tax.
+   double const INCOME_TAX = 0.15; //15%
+   Employee employees[MAX_EMPLOYEE];
+   // input the employee master information into an array of structs.
+   for (int i = 0; i < MAX_EMPLOYEE; i++)
+   {
+       cout << "Enter information for employee" << (i + 1) << ": \n";
+       cout << "Employee id: ";
+       cin >> employees[i].empId;
+       while (employees[i].empId<=0)
+       {
+           cout << "Enter valid employee Id.\n";
+           cout << "Employee id: ";
+           cin >> employees[i].empId;
+       }
+       cin.ignore();
+       cout << "Emplyee name: ";
+       cin.getline(employees[i].name, 20);
+      
+       cout << "Pay rate: ";
+       cin >> employees[i].rate;
+       while (employees[i].rate<=0)
+       {
+           cout << "Enter valid rate.\n";
+           cout << "Pay rate: ";
+           cin >> employees[i].rate;
+       }
+       cout << "Type: ";
+       cin >> employees[i].empType;
+       while (employees[i].empType<0 || employees[i].empType>1)
+       {
+           cout << "Employee type should be 0 or 1.\n";
+           cout << "Type: ";
+           cin >> employees[i].empType;
+       }
+   }
+
+   /*
+   loop to do the payroll processing for each employee
+   (input the employee's hours worked and calculate their pay
+   */
+   double hoursWorked[MAX_EMPLOYEE];
+   double GrossPay[MAX_EMPLOYEE];
+   double tax[MAX_EMPLOYEE];
+   double netPay[MAX_EMPLOYEE];
+   cout << "Enter timecard information for each employee: \n";
+   for (int i = 0; i < MAX_EMPLOYEE; i++)
+   {
+       cout << "Hours worked for " << employees[i].name << ": ";
+       cin >> hoursWorked[i];
+       while (hoursWorked[i] < 0)
+       {
+           cout << "enter valid hours." << endl;
+           cout << "Hours worked for " << employees[i].name << ": ";
+           cin >> hoursWorked[i];
+       }
+   }
+   //processing payroll
+   /*Gross Pay - Union members are paid their normal
+   pay rate for the first 40 hours worked, and 1.5
+   times their normal pay rate for any hours worked over 40.
+   Management employees are paid their normal pay rate for all
+   hours worked (they are paid for overtime hours,
+   but they are paid at their normal hourly rate).
+Tax - All employees pay a flat 15% income tax.
+Net Pay is Gross Pay - Tax*/
+   double totalGrossPay = 0, totalNetPay = 0;
+   //header
+   cout << fixed << setprecision(2);
+   cout << setw(2) << "ID" << setw(14) << "Name" << setw(10) << "Grosspay" << setw(10) << "Tax" << setw(10) << "Net Pay" << endl;
+   for (int i = 0; i < MAX_EMPLOYEE; i++)
+   {
+       if (hoursWorked[i] <= 40 && employees[i].empType == 0)
+       {
+           GrossPay[i] = hoursWorked[i] * employees[i].rate;
+           tax[i] = GrossPay[i] * INCOME_TAX;
+           netPay[i] = GrossPay[i] - tax[i];
+       }
+       else if(hoursWorked[i]>40 && employees[i].empType==0)
+       {
+           GrossPay[i] =40*employees[i].rate+( hoursWorked[i]-40) * employees[i].rate*1.5;
+           tax[i] = GrossPay[i] * INCOME_TAX;
+           netPay[i] = GrossPay[i] - tax[i];
+       }
+       else
+       {
+           GrossPay[i] = hoursWorked[i] * employees[i].rate;
+           tax[i] = GrossPay[i] * INCOME_TAX;
+           netPay[i] = GrossPay[i] - tax[i];
+       }
+       cout << setw(2) << employees[i].empId << setw(14) << employees[i].name << setw(10) << GrossPay[i] << setw(10) << tax[i] << setw(10) << netPay[i] << endl;
+       totalGrossPay += GrossPay[i];
+       totalNetPay += netPay[i];
+   }
+  
+   cout << "Total Gross Pay $" << totalGrossPay << endl;
+   cout << "Total Net Pay $" << totalNetPay << endl;
+  
+   //pause
+   system("pause");
+   return 0;
+}
