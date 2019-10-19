@@ -11,11 +11,14 @@ Program
 #include <iostream>
 #include <iomanip>
 
-void input_date(float data[3][7], char days[7][4])//function to input data and store in array
+using namespace std;
+
+void input_data(float data[3][7], char days[7][4])//function to input data and store in array
 {
-	int i,j;
+	int i = sizeof(data)/sizeof(data[0]);
+	int j = sizeof(data)/sizeof(data[0]);
 	float a;
-	for(i=0;i<j;i++) //out loop
+	for(i=0;i<j;i++) //outer loop
 	{
 		for(j=0;j<7;j++)//inner loop
 		{
@@ -34,21 +37,21 @@ void input_date(float data[3][7], char days[7][4])//function to input data and s
 
 float average(float data[3][7]) //function for average calculation
 {
-	float sum=0;
+	float avg=0;
 	for(int i=0;i<3;i++)
 	{
 		for(int j=0;j<7;j++)
-		sum=sum+data[i][j];
+		avg= sum + data[i][j];
 	}
 	return sum; 
 }
 
-float least(float(data[3][7]) //function for assigning least food
+float least(float data[3][7]) //function for assigning least food
 {
 	float small=data[0][0];
 	for(int i=0; i<3; i++)
 	{
-		forint( j=0; j<7; j++)
+		for(int j=0; j<7; j++)
 		if(data[i][j]<small)
 			small=data[i][j];
 	}
@@ -73,7 +76,7 @@ void output_data(float data[3][7])
 	cout<<"Monkey\tSun\tMon\tTue\tWed\tThu\tFri\tSat"<<endl;
 	for(int i=0; i<3; i++)
 	{
-		cout<<i+1
+		cout<<i+1;
 		for (int j=0; j<7; j++)
 		{
 			cout<<"\t"<<setprecision(1)<<fixed<<data[i][j];
