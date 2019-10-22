@@ -1,11 +1,11 @@
 /*
-
+SH
 
 Program Status: Complete
 
-Program
-Program
-Program
+Program notes
+		notes
+		notes
 */
 
 #include <iostream>
@@ -13,90 +13,103 @@ Program
 
 using namespace std;
 
-void input_data(float data[3][7], char days[7][4])//function to input data and store in array
+void input_data(float data[3][7], char days[7][4])
 {
-	int i = sizeof(data)/sizeof(data[0]);
-	int j = sizeof(data)/sizeof(data[0]);
+	int i,
+		j;
+	
 	float a;
-	for(i=0;i<j;i++) //outer loop
+	
+	for(i=0; i<3; i++) //outter loop
 	{
-		for(j=0;j<7;j++)//inner loop
+		for(j=0; j<7; j++) //inner loop
 		{
-			cout<<"Enter pounds of food eaten by monkey " <<i+1<<" on "<<days[j]<<":";
-			//message used to prompt input
-			cin>>a;
-			if(a<0)
+			cout<<"Enter how many pounds of food was eaten by each monkey "<<i+1
+				<<" on "<<days[j]<<":"; //prompt for user input
+			cin>>a; 
+			if (a<0)
 			{
-				cout<<"Please do not enter a negative number.";
+				cout<<"Amount of food eaten cannot be negative!";
 				j--;
 			}
-			else data[i][j]=a;
+			else
+				data[i][j]=a; //assigns valid number to array
 		}
 	}
 }
 
-float average(float data[3][7]) //function for average calculation
+float average(float data[3][7]) //function for average amount of food
 {
-	float avg=0;
-	for(int i=0;i<3;i++)
-	{
-		for(int j=0;j<7;j++)
-		avg= sum + data[i][j];
-	}
-	return sum; 
-}
-
-float least(float data[3][7]) //function for assigning least food
-{
-	float small=data[0][0];
+	float sum=0;
 	for(int i=0; i<3; i++)
 	{
 		for(int j=0; j<7; j++)
-		if(data[i][j]<small)
-			small=data[i][j];
+			sum = sum+data[i][j];
 	}
-	return small;
+	return sum/7; //returns average
 }
 
-float largest(float data[3][7])//largest calc function
+float least(float data[3][7]) //function for calculating least food eaten
 {
-	float large=data[0][0];
-	for(int i=0;i<3;i++)
+	float small = data[0][0];
+	for(int i=0; i<3; i++)
 	{
 		for(int j=0; j<7; j++)
-			if(data[i][j]>large)
-				large=data[i][j];
+			if(data[i][j]<small)
+				small = data[i][j];
 	}
-	return large;
+	return small; //returns smallest value
 }
 
-void output_data(float data[3][7])
+float largest(float data[3][7]) //function for calculating most food eaten
 {
-	cout<<"\nPounds of food eaten by monkey and day of week."<<endl;
-	cout<<"Monkey\tSun\tMon\tTue\tWed\tThu\tFri\tSat"<<endl;
+	float large = data[0][0];
+	for(int i=0; i<3; i++)
+	{
+		for(int j=0; j<3; j++)
+			if(data[i][j]>large)
+				large = data[i][j];
+	}
+	return large; //returns largest value
+}
+
+void output_data(float data[3][7]) //output function for displaying data
+{
+	cout<<"\nPounds of food eaten by each monkey and day of week"<<endl<<endl; //header
+	cout<<"Monkey\tSun\tMon\tTue\tWed\tThu\tFri\tSat"<<endl; //second line header
 	for(int i=0; i<3; i++)
 	{
 		cout<<i+1;
-		for (int j=0; j<7; j++)
+		for(int j=0; j<7; j++)
 		{
 			cout<<"\t"<<setprecision(1)<<fixed<<data[i][j];
 		}
 		cout<<endl;
 	}
 	cout<<endl<<endl;
-	cout<<"The average food eaten per day by all monkeys:\t"<<setprecision(1)
-		<<fixed<<average(data)<<" lbs"<<endl;
-	cout<<"The least amount of food eaten by any monkey: \t"<<setprecision(1)
-		<<fixed<<least(data)<<" lbs"<<endl;
-	cout<<"The largest amount of food eaten by any monkey: \t"<<setprecision(1)
-		<<fixed<<largest(data)<<" lbs"<<endl;
+	cout<<"The average food eaten per day by all the monkeys: \t"<<setprecision(1)<<fixed<<average(data)
+		<<"lbs"<<endl;//function call for average()
+	
+	cout<<"The least amount of food eaten by any monkey: \t"<<setprecision(1)<<fixed<<least(data)
+		"lbs"<<endl;//function call for least()
+	
+	cout<<"The most food eaten by any monkey: \t"<<setprecision(1)<<fixed<<largest(data)<<"lbs"<<endl;
+		//function call for largest()
 }
 
 int main()
 {
-	float data[3][7];
-	char days[7][4]={"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-	input_data(data,days);
-	output_data(data);
+	float data[3][7]; //data array to hold 3x7 float numbers
+	
+	char days[7][4]={"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
+	//days of week in array
+	
+	input_data(data,days);//function call for input_data() for user input into array
+	
+	output_data(data);//function call for displaying results
+	
 	return 0;
 }
+		
+		
+		
