@@ -1,0 +1,138 @@
+/****************************************************************************************
+*Program will accept input from user for package weight as well as three dimensional	*
+*measurements (height, width, length) and accept/reject the package. If accepted it will*
+*assign list a price for the shipping.													*
+*****************************************************************************************/	
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+   //struct
+   const int SIZE = 15;
+  
+   struct packInfo
+   {
+       int trans;                  
+       string status;              
+       double pkgwt;          
+       double pkgCost;              
+   };
+
+int getLargest(int s1, int s2, int s3)
+   {
+       int l;
+       if (s1 > 0 && s2 > 0 && s3 > 0)
+       {
+           if (s1 > s2 && s1 > s3)
+               l = s1;
+           else if (s2 > s1 && s2 > s3)
+               l = s2;
+           else if ( s3 > s1 && s3 > s2)
+               l = s3;
+       }
+       else
+           cout << "Package weight and dimensions must be larger than 0" << endl;
+           //error message if length is too big
+       return l;
+   }
+  
+
+   void displayHead()
+   {
+   cout<<"For each transaction, enter package weight and 3 dimensions.\n"<<"Enter -1 to quit"<<endl<<endl;
+   }
+
+
+   int main ()
+   {
+   packInfo pack;
+      
+       //declare variables and arrays
+       int transNum = 0 ,length = 0, width = 0, height = 0;                  
+       int girth = 0, largest = 0, index = 0, numGood = 0;          
+       int numBad = 0;                  
+       string status = " ";
+       int weight[SIZE] = {1, 2, 3, 5, 7, 10, 13, 16, 20, 25, 30, 35, 40, 45, 50};
+       double shipping[SIZE] = {1.50, 2.10, 4.00, 6.75, 9.90, 14.95, 19.40, 24.40, 27.30, 31.90, 38.50, 43.50, 44.80, 47.40, 55.20};
+
+  displayHead();
+       cout <<"Enter pack weight in pounds and 3 dimensions: ";
+       // get input
+       cin >> pack.pkgwt >> length >> width >> height;
+
+       while (pack.pkgwt > 0)
+       {
+          
+           if ((length <= 0)||(width <= 0)||(height <= 0)||(pack.pkgwt <= 0))
+       {
+           cout << "Error: Enter Valid Dimensioins" << endl <<"Please Re-Enter Transaction";
+           cout<<endl;
+           cout <<"Enter pack weight in pounds and 3 dimensions: ";
+           cin >> pack.pkgwt >> length >> width >> height;
+       }
+           //search the arrays for location
+           for (int i = 0; i < 15; i++)
+           {
+               if (pack.pkgwt == weight[i])
+               {
+                   index = i;
+                   break;
+               }
+               else if (pack.pkgwt >= weight[i])
+                   continue;
+               else
+               {
+                   pack.pkgwt = weight[i];
+                   index = i;
+                   break;
+               }
+           }
+
+           pack.pkgCost = shipping[index];
+
+           transNum++;
+           pack.trans = transNum;
+
+//get the largest number
+           largest = getLargest(length, width, height);
+
+           //girth calc
+           girth = 2 * (length + width + height - largest);
+          
+           //determine pack status
+           if ((girth > 60)||(pack.pkgwt > 50))
+           {
+               pack.status = "Rejected";
+               numBad++;
+               pack.pkgCost = 0;
+           }
+           else {
+               pack.status = "Accepted";
+               numGood++;
+           }
+          
+           cout << endl;
+       cout << "Transaction :" << setw(5) << pack.trans <<endl;
+       cout << "Status :" << setw(5) <<pack.status<<endl;
+       cout << "Weight :" << setw(5) <<pack.pkgwt<<endl;
+       cout << "Cost :"<< setw(5) << pack.pkgCost << endl << endl;
+      
+           cout <<"Enter pack weight in pounds and 3 dimensions: ";
+           cin >> pack.pkgwt;
+           if (pack.pkgwt > 0)
+           {
+               cin >> length >> width >> height;
+           }
+           else
+           {
+               break;
+           }
+       }
+       cout << "Number of Accepted packs: " << numGood << endl;
+       cout << "Number of Rejected packs: " << numBad << endl;
+
+       return 0;
+   }
