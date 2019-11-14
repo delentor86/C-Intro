@@ -1,0 +1,73 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+void readInput(int grades[], int n)
+{
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		while (1)
+		{
+			cout << "Enter grade: ";
+			cin >> grades[i];
+			if (grades[i] >= 0 && grades[i] <= 104)
+				break;
+			cout << "Invalid grade." << endl;
+
+		}
+	}
+}
+
+void sort(int grades[], int n)
+{
+	int i, j;
+	for (i = 0; i < n; i++)
+	{
+		for (j = i; j < n; j++)
+		{
+			if (grades[i] > grades[j])
+			{
+				int temp = grades[i];
+				grades[i] = grades[j];
+				grades[j] = temp;
+			}
+		}
+	}
+}
+
+double averageGrade(int grades[], int n)
+{
+	int i, total = 0;
+	for (i = 0; i < n; i++)
+	{
+		total += grades[i];
+	}
+	return (double)total / n;
+}
+
+void display(int grades[], int n)
+{
+	int i;
+	cout << setw(20) << "Grade" << endl;
+	cout << setw(20) << "-------" << endl;
+	for (i = 0; i < n; i++)
+	{
+		cout << setw(20) << grades[i] << endl;
+	}
+	cout << setw(20) << "-------" << endl;
+	cout << left << setw(15) << "Average" << setprecision(4) << averageGrade(grades, n) << endl;
+}
+
+int main()
+{
+	int n;
+	cout << "How many number of students to be processed: ";
+	cin >> n;
+	int *grades = new int[n];
+	readInput(grades, n);
+	sort(grades, n);
+	display(grades, n);
+}
