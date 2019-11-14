@@ -1,0 +1,82 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+struct Student
+{
+	string name;
+	int score;
+};
+
+void readInput(Student std[], int n)
+{
+	int i;
+	for (i = 0; i < n; i++)
+	{
+		cout << "Enter name of student: ";
+		getline(cin, std[i].name);
+		getline(cin, std[i].name);
+		while (1)
+		{
+			cout << "Enter grade: ";
+			cin >> std[i].score;
+			if (std[i].score >= 0 && std[i].score <= 104)
+				break;
+			cout << "Invalid grade." << endl;
+		}
+	}
+}
+
+void sort(Student std[], int n)
+{
+	int i, j;
+	for (i = 0; i < n; i++)
+	{
+		for (j = i; j < n; j++)
+		{
+			if (std[i].score > std[j].score)
+			{
+				Student temp = std[i];
+				std[i] = std[j];
+				std[j] = temp;
+
+			}
+		}
+	}
+}
+
+double averageGrade(Student std[], int n)
+{
+	int i, total = 0;
+	for (i = 0; i < n; i++)
+	{
+		total += std[i].score;
+	}
+	return (double)total / n;
+}
+
+void display(Student std[], int n){
+	int i;
+	cout << setw(20) << left << "Name" << setw(7) << "Score" << endl;
+	cout << "----------------------------" << endl;
+	for (i = 0; i < n; i++)
+	{
+		cout << left << setw(20) << std[i].name << setw(7) << std[i].score << endl;
+	}
+	cout << "----------------------------" << endl;
+	cout << left << setw(20) << "Average" << setw(7) << setprecision(4)<<averageGrade(std, n) << endl;
+}
+
+int main()
+{
+	int n;
+	cout << "How many number of students to be processed: ";
+	cin >> n;
+	Student *students = new Student[n];
+	readInput(students, n);
+	sort(students, n);
+	display(students, n);
+	averageGrade(students, n);
+}
