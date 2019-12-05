@@ -1,0 +1,244 @@
+#include <iostream> 
+#include <iomanip> 
+#include <fstream> // Filestream objects
+#include <string>   // stream objects
+
+using namespace std;
+
+struct EmployeePay
+{
+	int employeeId;    // employee ID
+	float hoursWorked; // employee hours worked
+	float grossPay;    // employee gross pay
+	float tax;         // employee tax
+	int insurance;     // employee insurance cost
+	float netPay;      // employee net pay
+};
+
+class Employee
+{
+	private:
+		int id;             // employee ID
+		string name;        // employee name
+		double hourlyPay;   // pay per hour
+		int numDeps;        // number of dependents
+		int type;           // employee type
+   
+	public:
+		Employee( int initId=0, string initName="",
+        double initHourlyPay=0.0,
+        int initNumDeps=0, int initType=0 ); // Constructor
+
+    bool set(int newId, string newName, double newHourlyPay,
+        int newNumDeps, int newType);
+   
+    int getId()      // get employee id
+		{ return id; }  
+   
+    string getName() // get employee name
+		{ return name; }
+   
+    double getHourlyPay()   // get employee hourly pay
+		{ return hourlyPay; }
+   
+    int getNumDep() // get number of dependants on insurance
+		{ return numDeps; }
+   
+    int getType()     // get type of employee. 1 for management 0 for union
+		{ return type; }
+   
+};
+
+Employee::Employee( int initId, string initName,
+                    double initHourlyPay,
+                    int initNumDeps, int initType )
+{
+	bool status = set( initId, initName, initHourlyPay,
+                     initNumDeps, initType );
+
+	if ( !status )
+	{
+		id = 0;
+		name = "";
+		hourlyPay = 0.0;
+		numDeps = 0;
+		type = 0;   
+	}
+}
+
+bool Employee::set( int newId, string newName, double newHourlyPay,
+                    int newNumDeps, int newType )
+{
+	bool status = false;
+
+	if ( newId > 0 && newHourlyPay > 0 && newNumDeps >= 0 &&
+        newType >= 0 && newType <= 1 )
+	{
+		status = true;
+		id = newId;
+		name = newName;
+		hourlyPay = newHourlyPay;
+		numDeps = newNumDeps;
+		type = newType;
+	}
+	return status;
+}
+
+void calculateGrossPay(EmployeePay [], Employee[]);   // function prototypes
+void calculateNetPay(EmployeePay [], Employee[]);    
+void displayPayRoll(EmployeePay [], Employee[]);
+     
+int main()
+{
+    int tempId;                 // store the id read in by the program
+    string tempName;            // store the name read in by the program
+    double tempHourlyPay;       // store the hourly pay read in by the program
+    int tempNumDeps;            // store the number of dependants read in by the program
+    int tempType;               // store the type of employee read in by the program
+    int sucCount = 0;           // count the number of employees successfully processed
+    ifstream inputFile;         // file objects for input
+    ifstream inputFile2;
+   
+    Employee employees[6];      // array of employee objects
+    EmployeePay payData[6];     // array of pay structures
+   
+    inputFile.open("master9.txt"); // open a file
+   
+    if (inputFile)
+    {
+       for(int count = 0; count < 6; count++)    // read in employee data from the file
+       {
+        inputFile >> tempId;
+        getline( inputFile, tempName, '#' );
+        inputFile >> tempHourlyPay;
+        inputFile >> tempNumDeps;
+        inputFile >> tempType;
+       
+        employees[count].set(tempId, tempName, tempHourlyPay, // store the data read in into the objects
+							tempNumDeps, tempType);
+       
+        if(tempId <= 0)        // validation to ensure employee id is positive
+			{
+				cout << "Error. Employee " << tempName << endl;
+				cout << "has employee id less than or equal to 0. this employee will be skipped on the payroll.\n" << endl;
+			}
+       
+       }
+       inputFile.close(); // close the file
+    }
+   
+    else
+		cout << "Error opening the file master9.txt \n";
+		inputFile2.open("trans9.txt"); // open another file object for reading
+   
+    if (inputFile2)
+    {
+		for(int count = 0; count < 6; count++) // read in employee data again, this time for payroll
+		{
+			inputFile2 >> payData[count].employeeId;
+			inputFile2 >> payData[count].hoursWorked;
+     
+			if(payData[count].hoursWorked <= 0)      // validation to ensure hours worked is positive
+			{
+				cout << "Error. Employee " << employees[count].getName() << endl;
+				cout << "Has negative or 0 hours worked. This employee will be skipped on the payroll.\n" << endl;
+			}
+     
+			else
+				sucCount++; // count the number of employees successfully processed
+     
+		}
+     inputFile2.close();    // close the file
+     cout << sucCount << " employees successfully processed.\n" << endl;
+    }
+   
+    else
+    cout << "Error opening the file trans9.txt\n" << endl;
+   
+    calculateGrossPay(payData, employees);        // Calculate employee gross pay
+    calculateNetPay(payData, employees);          // calculate employee net pay
+    displayPayRoll(payData, employees);           // display employee payroll
+         
+    system("pause");
+    return 0;
+}
+
+// function: calculate gross pay
+// purpose: to calculate the gross play of every valid employee processed
+void calculateGrossPay(EmployeePay payInfo[], Employee numEmps[])
+{
+	float bonusHours = 0.0;           // bonus hours for union employees who worked overtime
+	float bonusPay = 0.0;             // bonus pay for union employees who worked overtime
+
+// calculate gross pay for the employees
+	for(int count = 0; count < 6; count++)
+	{
+		if(numEmps[count].getId() > 0)       // if the employee's id is valid
+		{
+			if(numEmps[count].getType() == 0 && payInfo[count].hoursWorked > 40) // if the employee worked more than 40 hours and is union
+			{
+				bonusHours = payInfo[count].hoursWorked - 40;
+				bonusPay = bonusHours * (numEmps[count].getHourlyPay() * 1.5);
+				payInfo[count].grossPay = numEmps[count].getHourlyPay() * 40 + bonusPay; // calculate gross pay + bonus
+			}
+		else
+			payInfo[count].grossPay = payInfo[count].hoursWorked * numEmps[count].getHourlyPay(); // calculate regular gross pay
+		}
+	}    
+}
+
+// function: calculate net pay
+// purpose: to calculate the net pay of each employee
+void calculateNetPay(EmployeePay payInfo[], Employee numEmps[])
+{
+// calculate tax
+	for(int count = 0; count < 6; count++)
+	{
+		if(numEmps[count].getId() > 0 && payInfo[count].grossPay > 0) // if the employee's id and pay are valid
+		payInfo[count].tax = payInfo[count].grossPay * .15;          // calculate tax
+	}
+
+// calculate insurance
+	for(int count = 0; count < 6; count++)
+	{
+		if(numEmps[count].getId() > 0 && payInfo[count].grossPay > 0) // if the employee's id and pay are valid
+		payInfo[count].insurance = numEmps[count].getNumDep() * 20;   // calculate insurance
+	}
+
+// calculate net pay
+	for(int count = 0; count < 6; count++)
+	{
+		if(numEmps[count].getId() > 0 && payInfo[count].grossPay > 0) // if the employees id and pay are valid
+		payInfo[count].netPay = payInfo[count].grossPay - (payInfo[count].tax + payInfo[count].insurance); // calculate net pay
+	}
+
+}
+
+// function: Display Payroll
+// Purpose: This function writes the employee payroll to a file
+void displayPayRoll(EmployeePay payInfo[], Employee numEmps[])
+{
+	float totalGross = 0.0;       // Total employee gross pay
+	float totalNet = 0.0;         // total employee net pay
+	ofstream outputFile;
+	outputFile << fixed << showpoint << setprecision(2);
+
+	outputFile.open("Payroll.txt");
+   
+	outputFile << "ID" << setw(10) << "Name" << setw(20) << "Gross Pay" << setw(5) << "Tax" << setw(6) << "Insur" << setw(9) << "Net Pay" << endl;
+	for(int count = 0; count < 6; count++)
+	{
+		if(numEmps[count].getId() > 0 && payInfo[count].grossPay > 0) // output employee payroll data to the file
+		{
+			outputFile << left << setw(3) << numEmps[count].getId() << left << setw(20) << numEmps[count].getName()
+			<< setw(8) << payInfo[count].grossPay << setw(8) << payInfo[count].tax << setw(6) << payInfo[count].insurance
+			<< setw(8) << payInfo[count].netPay << endl;
+			totalGross += payInfo[count].grossPay;
+			totalNet += payInfo[count].netPay;
+		}
+	}
+	outputFile << "\nTotal Employee gross pay is:" << right << setw(8) << totalGross << endl;              // output total gross pay to file
+	outputFile << "Total Employee net pay is" << setw(3) <<":" << right << setw(8) << totalNet << endl;    // output total net pay to file
+	outputFile.close(); // close the file
+
+}
